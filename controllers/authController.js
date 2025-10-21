@@ -77,4 +77,41 @@ const register = async (req, res) => {
     }
 }
 
-module.exports = {register}
+const login = async (req, res) => {
+    const {email, clave} = req.body;
+    try {
+        if (!email || !clave) {
+            return res.status(400).json({message:'Debes rellenar todos los campos'})
+        }
+        console.log(1);
+        
+        const usuarioExiste = await Usuario.findOne({email});
+        if (!usuarioExiste) {
+            return res.status(404).json({message:'El usuario no existe'})
+        }
+        console.log(2);
+        
+        const claveValida = await bcrypt.compare(clave, usuarioExiste.clave);
+        if (!claveValida) {
+            return res.status(400).json({message:'La clave es incorrecta'})
+        }
+        console.log(3);
+        
+        const token = jwt.sign(
+            {id:usuarioExiste._id},
+            process.env.JWT_SECRET,
+            {expiresIn: '1d'}
+        );
+        console.log(4);
+        
+        res.status(200).json({token, message:`Bienvenido ${usuarioExiste.nombre}`})
+        console.log(5);
+        
+    } catch (error) {
+        console.log('Error en la autenticación: ', error);
+        res.status(500).json({message:'Error interno del servidor'})
+        
+    }
+}
+
+module.exports = {register, login}
