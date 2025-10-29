@@ -8,11 +8,9 @@ const perfil = async (req, res) => {
         const token_extraido = jwt.verify(token, process.env.JWT_SECRET)
         const id_usuario = token_extraido.id
         const usuario = await Usuario.findById(id_usuario)
-        console.log(usuario);
         
         const titulos = await Titulo.find({id_usuario})
 
-        console.log(titulos);
         
 
         return res.json({usuario, titulos})

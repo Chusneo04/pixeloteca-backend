@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 5000;
 const authRoutes = require("./routes/auth");
 const recuperar_claveRoutes = require('./routes/recuperar_clave');
 const perfilRoutes = require('./routes/perfil');
+const tituloRoutes = require('./routes/titulos')
 const cors = require("cors");
 const mongoose = require("mongoose");
 
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use("/", authRoutes);
 app.use("/", recuperar_claveRoutes);
 app.use('/', perfilRoutes);
+app.use('/', tituloRoutes);
 
 app.listen(PORT, () => {
     console.log(`Servidor backend escuchando en el puerto ${PORT}`);
