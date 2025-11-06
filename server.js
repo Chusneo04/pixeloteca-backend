@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 5000;
 const authRoutes = require("./routes/auth");
 const recuperar_claveRoutes = require('./routes/recuperar_clave');
 const perfilRoutes = require('./routes/perfil');
-const tituloRoutes = require('./routes/titulos')
+const tituloRoutes = require('./routes/titulos');
 const cors = require("cors");
 const mongoose = require("mongoose");
 
