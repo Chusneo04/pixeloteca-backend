@@ -51,4 +51,34 @@ const agregar_titulo = async (req, res) => {
     
 }
 
-module.exports = {eliminar_titulo, agregar_titulo}
+const obtener_titulo = async (req, res) => {
+    const id = req.params.id
+    try {
+        const elemento = await Titulo.findOne({ _id:id })
+        if (!elemento) {
+            return res.status(404).json({message:'No se ha encontrado el titulo'})
+        }
+        console.log(elemento);
+        
+        return res.status(200).json({message:'Titulo encontrado satisfactoriamente', elemento})
+    } catch (error) {
+        return res.status(500).json({message:'Ha ocurrido un error interno del servidor'})
+    }
+    
+    
+    
+}
+
+const editar_titulo = async (req, res) => {
+    const {id, titulo, categoria} = req.body
+    try {
+        const titulo_actualizado = await Titulo.updateOne(
+            {_id:id}, {$set:{titulo:titulo, categoria:categoria}}
+        )
+        return res.status(200).json({message:'Titulo actualizado correctamente', titulo_actualizado})
+    } catch (error) {
+        return res.status(500).json({message:'Ha ocurrido un error interno en el servidor'})
+    }
+}
+
+module.exports = {eliminar_titulo, agregar_titulo, obtener_titulo, editar_titulo}
