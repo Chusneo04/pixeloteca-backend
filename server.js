@@ -16,13 +16,15 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log("Conectado a MongoDB"))
 .catch((error) => console.log("Error al conectar a MongoDB:", error));
 
-app.use(cors());
+app.use(cors({origin:'https://pixeloteca.onrender.com'}));
 app.use(express.json());
 
 app.use("/", authRoutes);
 app.use("/", recuperar_claveRoutes);
 app.use('/', perfilRoutes);
 app.use('/', tituloRoutes);
+
+console.log(PORT)
 
 app.listen(PORT, () => {
     console.log(`Servidor backend escuchando en el puerto ${PORT}`);
